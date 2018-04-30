@@ -37,7 +37,7 @@ Enemy.prototype.render = function() {
 // Set new track attributes for an enemy.
 Enemy.prototype.setTrack = function() {
   // speed attribute: between 4 to 10, inclusive
-  this.speed = Math.floor(Math.random() * (10 - 4 + 1)) + 4;
+  this.speed = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
   // initial x position: between -1000 and -200, inclusive
   this.positionX = (Math.floor(Math.random() * (1000 - 200 + 1)) + 200) * -1;
   // lane nr: 1, 2 or 3
@@ -64,6 +64,7 @@ class Player {
     this.x = 202;
     this.y = 309;
     this.allEnemies = allEnemies;
+    this.level = 0;
   }
   update() {
     // Player's position is on one of the three lanes
@@ -83,34 +84,49 @@ class Player {
         switch (this.x) {
           case 0:
             if (enemyPositionX > -51 && enemyPositionX <= 0) {
-              this.reset();
+              this.resetCollision();
             }
             break;
           case 101:
             if (enemyPositionX > 51 && enemyPositionX <= 101) {
-              this.reset();
+              this.resetCollision();
             }
             break;
           case 202:
             if (enemyPositionX > 152 && enemyPositionX <= 202) {
-              this.reset();
+              this.resetCollision();
             }
             break;
           case 303:
             if (enemyPositionX > 253 && enemyPositionX <= 303) {
-              this.reset();
+              this.resetCollision();
             }
             break;
           case 404:
             if (enemyPositionX > 354 && enemyPositionX <= 404) {
-              this.reset();
+              this.resetCollision();
             }
         }
       }
     }
   }
-  // Render Enemey
+  // Render Player
   render() {
+    if (this.level > 0) {
+      ctx.drawImage(Resources.get('images/Star.png'), 0 * 101, 5 * 83);
+    }
+    if (this.level > 1) {
+      ctx.drawImage(Resources.get('images/Star.png'), 1 * 101, 5 * 83);
+    }
+    if (this.level > 2) {
+      ctx.drawImage(Resources.get('images/Star.png'), 2 * 101, 5 * 83);
+    }
+    if (this.level > 3) {
+      ctx.drawImage(Resources.get('images/Star.png'), 3 * 101, 5 * 83);
+    }
+    if (this.level > 4) {
+      ctx.drawImage(Resources.get('images/Star.png'), 4 * 101, 5 * 83);
+    }
     ctx.drawImage(Resources.get(this.boy), this.x, this.y);
   }
   // Update the Players position according to 'keyup' events.
@@ -131,7 +147,8 @@ class Player {
         this.y -= 83;
         // Player reached first lane and wins.
         if (this.y === -23) {
-          console.log('WON!!!!!!!');
+          this.level += 1;
+          this.resetWin();
         }
         break;
       case 'right':
@@ -149,8 +166,24 @@ class Player {
     }
     this.render();
   }
+  // Reset Player's position after a win.
+  resetWin() {
+    let that = this;
+    setTimeout(function() {
+      that.resetPosition();
+    }, 1000);
+  }
   // Reset Player's position after a collision.
-  reset() {
+  // Set level down.
+  resetCollision() {
+    this.resetPosition();
+    if (this.level > 0) {
+      this.level -= 1;
+    }
+  }
+  resetPosition() {
+    // let cols = [0, 101, 202.303, 404]
+    // this.x = cols[Math.floor(Math.random() * cols.length)];
     this.x = 202;
     this.y = 309;
   }
@@ -160,6 +193,10 @@ class Player {
 
 // Place all enemy objects in an array called allEnemies
 allEnemies = [
+  new Enemy(),
+  new Enemy(),
+  new Enemy(),
+  new Enemy(),
   new Enemy(),
   new Enemy(),
   new Enemy(),
