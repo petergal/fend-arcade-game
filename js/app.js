@@ -65,7 +65,7 @@ class Player {
     this.boy = 'images/char-boy.png';
     this.x = 202;
     // this.y = 392;
-    this.y = -23;
+    this.y = 309;
   }
   update() {
     //collision ?!
@@ -77,18 +77,31 @@ class Player {
   handleInput(keyCode) {
     switch (keyCode) {
       case 'left':
-        this.x -= 20;
+        if (this.x <= 0) {
+          break;
+        }
+        this.x -= 101;
         break;
       case 'up':
-        this.y -= 20;
+        if (this.y <= -23) {
+          break;
+        }
+        this.y -= 83;
         break;
       case 'right':
-        this.x += 20;
+        if (this.x >= 404) {
+          break;
+        }
+        this.x += 101;
         break;
       case 'down':
-        this.y += 20;
+        if (this.y >= 392) {
+          break;
+        }
+        this.y += 83;
         break;
     }
+    console.log(this.x, this.y);
     this.render();
   }
   reset() {
