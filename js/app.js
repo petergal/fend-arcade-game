@@ -101,7 +101,6 @@ class Player {
         this.y += 83;
         break;
     }
-    console.log(this.x, this.y);
     this.render();
   }
   reset() {
