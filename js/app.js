@@ -1,15 +1,16 @@
 // Enemies our player must avoid
-var Enemy = function(track) {
+var Enemy = function() {
   // Variables applied to each of our instances go here,
   // we've provided one for you to get started
 
   // The image/sprite for our enemies, this uses
   // a helper we've provided to easily load images
   this.sprite = 'images/enemy-bug.png';
-  this.positionX = track.startPositionX;
-  this.positionY = track.getLaneY();
-  this.laneNr = track.laneNr;
-  this.speed = track.speed;
+  this.speed;
+  this.positionX;
+  this.laneNr;
+  this.positionY;
+  this.setTrack();
 };
 
 // Update the enemy's position, required method for game
@@ -18,13 +19,13 @@ Enemy.prototype.update = function(dt) {
   // You should multiply any movement by the dt parameter
   // which will ensure the game runs at the same speed for
   // all computers.
+
+  // Enemy's position gets off the canvas, so renew track.
   if (this.positionX > 505) {
-    let track = new Track();
-    this.positionX = track.startPositionX;
-    this.positionY = track.getLaneY();
-    this.laneNr = track.laneNr;
-    this.speed = track.speed;
+    this.setTrack();
   }
+
+  // Update enemy's x position.
   this.positionX = this.positionX + (50 * this.speed * dt);
 };
 
@@ -33,31 +34,26 @@ Enemy.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.positionX, this.positionY);
 };
 
-Enemy.prototype.checkCollisions = function() {
-
+// Set new track attributes for an enemy.
+Enemy.prototype.setTrack = function() {
+  // speed attribute: between 4 to 10, inclusive
+  this.speed = Math.floor(Math.random() * (10 - 4 + 1)) + 4;
+  // initial x position: between -1000 and -200, inclusive
+  this.positionX = (Math.floor(Math.random() * (1000 - 200 + 1)) + 200) * -1;
+  // lane nr: 1, 2 or 3
+  this.laneNr = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+  // initial y position: determine from lane nr
+  switch (this.laneNr) {
+    case 1:
+      this.positionY = 60;
+      break;
+    case 2:
+      this.positionY = 143;
+      break;
+    case 3:
+      this.positionY = 226;
+  }
 };
-
-// Track ...
-class Track {
-  constructor() {
-    this.startPositionX =
-      (Math.floor(Math.random() * (1000 - 200 + 1)) + 200) * -1;
-    this.laneNr = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-    this.speed = Math.floor(Math.random() * (10 - 4 + 1)) + 4;
-  }
-  getLaneY() {
-    switch (this.laneNr) {
-      case 1:
-        return 60;
-        break;
-      case 2:
-        return 143;
-        break;
-      case 3:
-        return 226;
-    }
-  }
-}
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -75,6 +71,7 @@ class Player {
       this.checkCollision();
     }
   }
+  // Check collision event and call reset function.
   checkCollision() {
     for (let i = 0; i < allEnemies.length; i++) {
       let enemyLaneNr = allEnemies[i].laneNr;
@@ -112,9 +109,13 @@ class Player {
       }
     }
   }
+  // Render Enemey
   render() {
     ctx.drawImage(Resources.get(this.boy), this.x, this.y);
   }
+  // Update the Players position according to 'keyup' events.
+  // Bounds are checked so Player can't leave the canvas.
+  // Win event occurs if Player reaches first lane.
   handleInput(keyCode) {
     switch (keyCode) {
       case 'left':
@@ -128,6 +129,7 @@ class Player {
           break;
         }
         this.y -= 83;
+        // Player reached first lane and wins.
         if (this.y === -23) {
           console.log('WON!!!!!!!');
         }
@@ -147,27 +149,27 @@ class Player {
     }
     this.render();
   }
+  // Reset Player's position after a collision.
   reset() {
     this.x = 202;
     this.y = 309;
   }
-
 }
 
 // Now instantiate your objects.
 
 // Place all enemy objects in an array called allEnemies
 allEnemies = [
-  new Enemy(new Track()),
-  new Enemy(new Track()),
-  new Enemy(new Track()),
-  new Enemy(new Track()),
-  new Enemy(new Track()),
-  new Enemy(new Track())
+  new Enemy(),
+  new Enemy(),
+  new Enemy(),
+  new Enemy(),
+  new Enemy(),
+  new Enemy()
 ];
 
 // Place the player object in a variable called player
-const player = new Player(allEnemies);
+const player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
