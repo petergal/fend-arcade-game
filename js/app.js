@@ -8,6 +8,7 @@ var Enemy = function(track) {
   this.sprite = 'images/enemy-bug.png';
   this.positionX = track.startPositionX;
   this.positionY = track.getLaneY();
+  this.laneNr = track.laneNr;
   this.speed = track.speed;
 };
 
@@ -21,6 +22,7 @@ Enemy.prototype.update = function(dt) {
     let track = new Track();
     this.positionX = track.startPositionX;
     this.positionY = track.getLaneY();
+    this.laneNr = track.laneNr;
     this.speed = track.speed;
   }
   this.positionX = this.positionX + (50 * this.speed * dt);
@@ -41,7 +43,7 @@ class Track {
     this.startPositionX =
       (Math.floor(Math.random() * (1000 - 200 + 1)) + 200) * -1;
     this.laneNr = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-    this.speed = Math.floor(Math.random() * (10 - 1 + 1)) + 3;
+    this.speed = Math.floor(Math.random() * (10 - 4 + 1)) + 4;
   }
   getLaneY() {
     switch (this.laneNr) {
@@ -61,15 +63,54 @@ class Track {
 // This class requires an update(), render() and
 // a handleInput() method.
 class Player {
-  constructor() {
+  constructor(allEnemies) {
     this.boy = 'images/char-boy.png';
     this.x = 202;
-    // this.y = 392;
     this.y = 309;
+    this.allEnemies = allEnemies;
   }
   update() {
-    //collision ?!
-
+    // Player's position is on one of the three lanes
+    if (this.y == 60 || this.y == 143 || this.y == 226) {
+      this.checkCollision();
+    }
+  }
+  checkCollision() {
+    for (let i = 0; i < allEnemies.length; i++) {
+      let enemyLaneNr = allEnemies[i].laneNr;
+      let enemyPositionX = allEnemies[i].positionX;
+      // Enemy and Player are on the same lane
+      if (enemyLaneNr === 1 && this.y === 60 ||
+        enemyLaneNr === 2 && this.y === 143 ||
+        enemyLaneNr === 3 && this.y === 226) {
+        switch (this.x) {
+          case 0:
+            if (enemyPositionX > -51 && enemyPositionX <= 0) {
+              this.reset();
+            }
+            break;
+          case 101:
+            if (enemyPositionX > 51 && enemyPositionX <= 101) {
+              this.reset();
+            }
+            break;
+          case 202:
+            if (enemyPositionX > 152 && enemyPositionX <= 202) {
+              this.reset();
+            }
+            break;
+          case 303:
+            if (enemyPositionX > 253 && enemyPositionX <= 303) {
+              this.reset();
+            }
+            break;
+          case 404:
+            if (enemyPositionX > 354 && enemyPositionX <= 404) {
+              this.reset();
+            }
+        }
+      }
+    }
   }
   render() {
     ctx.drawImage(Resources.get(this.boy), this.x, this.y);
@@ -87,6 +128,9 @@ class Player {
           break;
         }
         this.y -= 83;
+        if (this.y === -23) {
+          console.log('WON!!!!!!!');
+        }
         break;
       case 'right':
         if (this.x >= 404) {
@@ -104,7 +148,8 @@ class Player {
     this.render();
   }
   reset() {
-
+    this.x = 202;
+    this.y = 309;
   }
 
 }
@@ -112,11 +157,17 @@ class Player {
 // Now instantiate your objects.
 
 // Place all enemy objects in an array called allEnemies
-allEnemies = [new Enemy(new Track()), new Enemy(new Track()), new Enemy(new Track()),
-  new Enemy(new Track()), new Enemy(new Track()), new Enemy(new Track())
+allEnemies = [
+  new Enemy(new Track()),
+  new Enemy(new Track()),
+  new Enemy(new Track()),
+  new Enemy(new Track()),
+  new Enemy(new Track()),
+  new Enemy(new Track())
 ];
+
 // Place the player object in a variable called player
-const player = new Player();
+const player = new Player(allEnemies);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
