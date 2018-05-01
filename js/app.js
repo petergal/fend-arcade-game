@@ -36,7 +36,7 @@ Enemy.prototype.render = function() {
 
 // Set new track attributes for an enemy.
 Enemy.prototype.setTrack = function() {
-  // speed attribute: between 4 to 10, inclusive
+  // speed attribute: between 2 to 4, inclusive
   this.speed = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
   // initial x position: between -1000 and -200, inclusive
   this.positionX = (Math.floor(Math.random() * (1000 - 200 + 1)) + 200) * -1;
@@ -61,7 +61,7 @@ Enemy.prototype.setTrack = function() {
 class Player {
   constructor(allEnemies) {
     this.boy = 'images/char-boy.png';
-    this.x = 202;
+    this.x = 0;
     this.y = 309;
     this.allEnemies = allEnemies;
     this.level = 0;
@@ -83,27 +83,27 @@ class Player {
         enemyLaneNr === 3 && this.y === 226) {
         switch (this.x) {
           case 0:
-            if (enemyPositionX > -51 && enemyPositionX <= 0) {
+            if (enemyPositionX > -51 && enemyPositionX <= 50) {
               this.resetCollision();
             }
             break;
           case 101:
-            if (enemyPositionX > 51 && enemyPositionX <= 101) {
+            if (enemyPositionX > 51 && enemyPositionX <= 151) {
               this.resetCollision();
             }
             break;
           case 202:
-            if (enemyPositionX > 152 && enemyPositionX <= 202) {
+            if (enemyPositionX > 152 && enemyPositionX <= 252) {
               this.resetCollision();
             }
             break;
           case 303:
-            if (enemyPositionX > 253 && enemyPositionX <= 303) {
+            if (enemyPositionX > 253 && enemyPositionX <= 353) {
               this.resetCollision();
             }
             break;
           case 404:
-            if (enemyPositionX > 354 && enemyPositionX <= 404) {
+            if (enemyPositionX > 354 && enemyPositionX <= 454) {
               this.resetCollision();
             }
         }
@@ -182,9 +182,8 @@ class Player {
     }
   }
   resetPosition() {
-    // let cols = [0, 101, 202.303, 404]
-    // this.x = cols[Math.floor(Math.random() * cols.length)];
-    this.x = 202;
+    let cols = [0, 101, 202, 303, 404]
+    this.x = cols[Math.floor(Math.random() * cols.length)];
     this.y = 309;
   }
 }
