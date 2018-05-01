@@ -127,6 +127,36 @@ class Player {
     if (this.level > 4) {
       ctx.drawImage(Resources.get('images/Star.png'), 4 * 101, 5 * 83);
     }
+    if (this.level > 5) {
+      ctx.drawImage(Resources.get('images/Gem Blue.png'), 0 * 101, 5 * 83);
+    }
+    if (this.level > 6) {
+      ctx.drawImage(Resources.get('images/Gem Blue.png'), 1 * 101, 5 * 83);
+    }
+    if (this.level > 7) {
+      ctx.drawImage(Resources.get('images/Gem Blue.png'), 2 * 101, 5 * 83);
+    }
+    if (this.level > 8) {
+      ctx.drawImage(Resources.get('images/Gem Blue.png'), 3 * 101, 5 * 83);
+    }
+    if (this.level > 9) {
+      ctx.drawImage(Resources.get('images/Gem Blue.png'), 4 * 101, 5 * 83);
+    }
+    if (this.level > 10) {
+      ctx.drawImage(Resources.get('images/Gem Orange.png'), 0 * 101, 5 * 83);
+    }
+    if (this.level > 11) {
+      ctx.drawImage(Resources.get('images/Gem Orange.png'), 1 * 101, 5 * 83);
+    }
+    if (this.level > 12) {
+      ctx.drawImage(Resources.get('images/Gem Orange.png'), 2 * 101, 5 * 83);
+    }
+    if (this.level > 13) {
+      ctx.drawImage(Resources.get('images/Gem Orange.png'), 3 * 101, 5 * 83);
+    }
+    if (this.level > 14) {
+      ctx.drawImage(Resources.get('images/Gem Orange.png'), 4 * 101, 5 * 83);
+    }
     ctx.drawImage(Resources.get(this.boy), this.x, this.y);
   }
   // Update the Players position according to 'keyup' events.
@@ -147,7 +177,9 @@ class Player {
         this.y -= 83;
         // Player reached first lane and wins.
         if (this.y === -23) {
-          this.level += 1;
+          if (this.level < 15) {
+            this.level += 1;
+          }
           this.resetWin();
         }
         break;
