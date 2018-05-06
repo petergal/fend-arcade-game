@@ -14,7 +14,7 @@ You try to cross the stone paths to reach the water. If you collide with an enem
 
 ### What can you expect from the game
 
- If you succeed to reach the water you reach the next level. This is indicated with star images. Maximum level is 10. If you collide lose a level.
+ If you succeed to reach the water you reach a next level. This is indicated with star images. Maximum level is 10. If you collide, you go down a level.
 
 ## Development
 
