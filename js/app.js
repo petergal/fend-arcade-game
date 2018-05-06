@@ -6,9 +6,13 @@ var Enemy = function() {
   // The image/sprite for our enemies, this uses
   // a helper we've provided to easily load images
   this.sprite = 'images/enemy-bug.png';
+  // speed, set by the setTrack function
   this.speed;
+  // initial X position, set by the setTrack function
   this.positionX;
+  // lane number, set by the setTrack function
   this.laneNr;
+  // Y position, set by the setTrack function
   this.positionY;
   this.setTrack();
 };
@@ -20,7 +24,7 @@ Enemy.prototype.update = function(dt) {
   // which will ensure the game runs at the same speed for
   // all computers.
 
-  // Enemy's position gets off the canvas, so renew track.
+  // Enemy's position gets off the canvas, so use setTrack to generate a new track.
   if (this.positionX > 505) {
     this.setTrack();
   }
@@ -29,7 +33,7 @@ Enemy.prototype.update = function(dt) {
   this.positionX = this.positionX + (50 * this.speed * dt);
 };
 
-// Draw the enemy on the screen, required method for game
+// Draw the enemy on the screen, required method for game.
 Enemy.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.positionX, this.positionY);
 };
@@ -40,9 +44,9 @@ Enemy.prototype.setTrack = function() {
   this.speed = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
   // initial x position: between -1000 and -200, inclusive
   this.positionX = (Math.floor(Math.random() * (1000 - 200 + 1)) + 200) * -1;
-  // lane nr: 1, 2 or 3
+  // lane nr: 1, 2 or 3, used to set Y position
   this.laneNr = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-  // initial y position: determine from lane nr
+  // initial y position
   switch (this.laneNr) {
     case 1:
       this.positionY = 60;
@@ -59,15 +63,26 @@ Enemy.prototype.setTrack = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 class Player {
+  // Player constructor takes the allEnemies array needed for collision detection.
   constructor(allEnemies) {
-    this.boy = 'images/char-boy.png';
+    // Player image
+    this.charBoy = 'images/char-boy.png';
+    // Images (star, gemBlue and gemOrange) used to indicate the current level
+    this.star = 'images/Star.png';
+    this.gemBlue = 'images/Gem Blue.png';
+    this.gemOrange = 'images/Gem Orange.png';
+    // initial X position is first column, so it's not to easy at the beginning
     this.x = 0;
-    this.y = 309;
+    // inital Y position
+    this.y = 392;
+    // allEnemies array
     this.allEnemies = allEnemies;
+    // level
     this.level = 0;
   }
+  // Update Player's position if necessery i.e. after a collision.
   update() {
-    // Player's position is on one of the three lanes
+    // Player's position is on one of the three 'enemy' lanes
     if (this.y == 60 || this.y == 143 || this.y == 226) {
       this.checkCollision();
     }
@@ -84,84 +99,85 @@ class Player {
         switch (this.x) {
           case 0:
             if (enemyPositionX > -51 && enemyPositionX <= 50) {
-              this.resetCollision();
+              this.collisionReset();
             }
             break;
           case 101:
             if (enemyPositionX > 51 && enemyPositionX <= 151) {
-              this.resetCollision();
+              this.collisionReset();
             }
             break;
           case 202:
             if (enemyPositionX > 152 && enemyPositionX <= 252) {
-              this.resetCollision();
+              this.collisionReset();
             }
             break;
           case 303:
             if (enemyPositionX > 253 && enemyPositionX <= 353) {
-              this.resetCollision();
+              this.collisionReset();
             }
             break;
           case 404:
             if (enemyPositionX > 354 && enemyPositionX <= 454) {
-              this.resetCollision();
+              this.collisionReset();
             }
         }
       }
     }
   }
-  // Render Player
+  // Render level of player and Player itself.
   render() {
     if (this.level > 0 && this.level < 6) {
-      ctx.drawImage(Resources.get('images/Star.png'), 0 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.star), 0 * 101, 5 * 83);
     }
     if (this.level > 1 && this.level < 7) {
-      ctx.drawImage(Resources.get('images/Star.png'), 1 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.star), 1 * 101, 5 * 83);
     }
     if (this.level > 2 && this.level < 8) {
-      ctx.drawImage(Resources.get('images/Star.png'), 2 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.star), 2 * 101, 5 * 83);
     }
     if (this.level > 3 && this.level < 9) {
-      ctx.drawImage(Resources.get('images/Star.png'), 3 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.star), 3 * 101, 5 * 83);
     }
     if (this.level > 4 && this.level < 10) {
-      ctx.drawImage(Resources.get('images/Star.png'), 4 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.star), 4 * 101, 5 * 83);
     }
     if (this.level > 5 && this.level < 11) {
-      ctx.drawImage(Resources.get('images/Gem Blue.png'), 0 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.gemBlue), 0 * 101, 5 * 83);
     }
     if (this.level > 6 && this.level < 12) {
-      ctx.drawImage(Resources.get('images/Gem Blue.png'), 1 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.gemBlue), 1 * 101, 5 * 83);
     }
     if (this.level > 7 && this.level < 13) {
-      ctx.drawImage(Resources.get('images/Gem Blue.png'), 2 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.gemBlue), 2 * 101, 5 * 83);
     }
     if (this.level > 8 && this.level < 14) {
-      ctx.drawImage(Resources.get('images/Gem Blue.png'), 3 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.gemBlue), 3 * 101, 5 * 83);
     }
     if (this.level > 9 && this.level < 15) {
-      ctx.drawImage(Resources.get('images/Gem Blue.png'), 4 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.gemBlue), 4 * 101, 5 * 83);
     }
     if (this.level > 10) {
-      ctx.drawImage(Resources.get('images/Gem Orange.png'), 0 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.gemOrange), 0 * 101, 5 * 83);
     }
     if (this.level > 11) {
-      ctx.drawImage(Resources.get('images/Gem Orange.png'), 1 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.gemOrange), 1 * 101, 5 * 83);
     }
     if (this.level > 12) {
-      ctx.drawImage(Resources.get('images/Gem Orange.png'), 2 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.gemOrange), 2 * 101, 5 * 83);
     }
     if (this.level > 13) {
-      ctx.drawImage(Resources.get('images/Gem Orange.png'), 3 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.gemOrange), 3 * 101, 5 * 83);
     }
     if (this.level > 14) {
-      ctx.drawImage(Resources.get('images/Gem Orange.png'), 4 * 101, 5 * 83);
+      ctx.drawImage(Resources.get(this.gemOrange), 4 * 101, 5 * 83);
     }
-    ctx.drawImage(Resources.get(this.boy), this.x, this.y);
+    ctx.drawImage(Resources.get(this.charBoy), this.x, this.y);
   }
   // Update the Players position according to 'keyup' events.
   // Bounds are checked so Player can't leave the canvas.
-  // Win event occurs if Player reaches first lane.
+  // 'Win event' to increment level and reset position occurs
+  // if Player reaches first lane.
   handleInput(keyCode) {
     switch (keyCode) {
       case 'left':
@@ -175,7 +191,7 @@ class Player {
           break;
         }
         this.y -= 83;
-        // Player reached first lane and wins.
+        // Player reaches first lane and wins.
         if (this.y === -23) {
           if (this.level < 15) {
             this.level += 1;
@@ -200,23 +216,26 @@ class Player {
   }
   // Reset Player's position after a win.
   resetWin() {
+    // this is not the Player object in a setTimeout function
     let that = this;
     setTimeout(function() {
       that.resetPosition();
     }, 1000);
   }
-  // Reset Player's position after a collision.
-  // Set level down.
-  resetCollision() {
+  // Reset Player's position after a collision and decrement level.
+  collisionReset() {
     this.resetPosition();
+    // decrement level
     if (this.level > 0) {
       this.level -= 1;
     }
   }
+  // Reset Player's position to a random column.
   resetPosition() {
     let cols = [0, 101, 202, 303, 404]
     this.x = cols[Math.floor(Math.random() * cols.length)];
-    this.y = 309;
+    // always last row
+    this.y = 392;
   }
 }
 
