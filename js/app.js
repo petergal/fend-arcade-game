@@ -67,10 +67,8 @@ class Player {
   constructor(allEnemies) {
     // Player image
     this.charBoy = 'images/char-boy.png';
-    // Images (star, gemBlue and gemOrange) used to indicate the current level
+    // Image used to indicate the current level
     this.star = 'images/Star.png';
-    this.gemBlue = 'images/Gem Blue.png';
-    this.gemOrange = 'images/Gem Orange.png';
     // initial position / start square.
     this.x = 202;
     this.y = 392;
@@ -126,49 +124,34 @@ class Player {
   }
   // Render level of player and Player itself.
   render() {
-    if (this.level > 0 && this.level < 6) {
-      ctx.drawImage(Resources.get(this.gemBlue), 0 * 101, 5 * 83);
+    if (this.level > 0) {
+      ctx.drawImage(Resources.get(this.star), 0 * 101, 4 * 83);
     }
-    if (this.level > 1 && this.level < 7) {
-      ctx.drawImage(Resources.get(this.gemBlue), 1 * 101, 5 * 83);
+    if (this.level > 1) {
+      ctx.drawImage(Resources.get(this.star), 1 * 101, 4 * 83);
     }
-    if (this.level > 2 && this.level < 8) {
-      ctx.drawImage(Resources.get(this.gemBlue), 2 * 101, 5 * 83);
+    if (this.level > 2) {
+      ctx.drawImage(Resources.get(this.star), 2 * 101, 4 * 83);
     }
-    if (this.level > 3 && this.level < 9) {
-      ctx.drawImage(Resources.get(this.gemBlue), 3 * 101, 5 * 83);
+    if (this.level > 3) {
+      ctx.drawImage(Resources.get(this.star), 3 * 101, 4 * 83);
     }
-    if (this.level > 4 && this.level < 10) {
-      ctx.drawImage(Resources.get(this.gemBlue), 4 * 101, 5 * 83);
+    if (this.level > 4) {
+      ctx.drawImage(Resources.get(this.star), 4 * 101, 4 * 83);
     }
-    if (this.level > 5 && this.level < 11) {
-      ctx.drawImage(Resources.get(this.gemOrange), 0 * 101, 5 * 83);
-    }
-    if (this.level > 6 && this.level < 12) {
-      ctx.drawImage(Resources.get(this.gemOrange), 1 * 101, 5 * 83);
-    }
-    if (this.level > 7 && this.level < 13) {
-      ctx.drawImage(Resources.get(this.gemOrange), 2 * 101, 5 * 83);
-    }
-    if (this.level > 8 && this.level < 14) {
-      ctx.drawImage(Resources.get(this.gemOrange), 3 * 101, 5 * 83);
-    }
-    if (this.level > 9 && this.level < 15) {
-      ctx.drawImage(Resources.get(this.gemOrange), 4 * 101, 5 * 83);
-    }
-    if (this.level > 10) {
+    if (this.level > 5) {
       ctx.drawImage(Resources.get(this.star), 0 * 101, 5 * 83);
     }
-    if (this.level > 11) {
+    if (this.level > 6) {
       ctx.drawImage(Resources.get(this.star), 1 * 101, 5 * 83);
     }
-    if (this.level > 12) {
+    if (this.level > 7) {
       ctx.drawImage(Resources.get(this.star), 2 * 101, 5 * 83);
     }
-    if (this.level > 13) {
+    if (this.level > 8) {
       ctx.drawImage(Resources.get(this.star), 3 * 101, 5 * 83);
     }
-    if (this.level > 14) {
+    if (this.level > 9) {
       ctx.drawImage(Resources.get(this.star), 4 * 101, 5 * 83);
     }
     ctx.drawImage(Resources.get(this.charBoy), this.x, this.y);
@@ -192,7 +175,7 @@ class Player {
         this.y -= 83;
         // Player reaches first lane and wins.
         if (this.y === -23) {
-          if (this.level < 15) {
+          if (this.level < 10) {
             this.level += 1;
           }
           this.resetWin();
