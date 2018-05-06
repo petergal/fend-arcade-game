@@ -112,34 +112,34 @@ class Player {
   }
   // Render Player
   render() {
-    if (this.level > 0) {
+    if (this.level > 0 && this.level < 6) {
       ctx.drawImage(Resources.get('images/Star.png'), 0 * 101, 5 * 83);
     }
-    if (this.level > 1) {
+    if (this.level > 1 && this.level < 7) {
       ctx.drawImage(Resources.get('images/Star.png'), 1 * 101, 5 * 83);
     }
-    if (this.level > 2) {
+    if (this.level > 2 && this.level < 8) {
       ctx.drawImage(Resources.get('images/Star.png'), 2 * 101, 5 * 83);
     }
-    if (this.level > 3) {
+    if (this.level > 3 && this.level < 9) {
       ctx.drawImage(Resources.get('images/Star.png'), 3 * 101, 5 * 83);
     }
-    if (this.level > 4) {
+    if (this.level > 4 && this.level < 10) {
       ctx.drawImage(Resources.get('images/Star.png'), 4 * 101, 5 * 83);
     }
-    if (this.level > 5) {
+    if (this.level > 5 && this.level < 11) {
       ctx.drawImage(Resources.get('images/Gem Blue.png'), 0 * 101, 5 * 83);
     }
-    if (this.level > 6) {
+    if (this.level > 6 && this.level < 12) {
       ctx.drawImage(Resources.get('images/Gem Blue.png'), 1 * 101, 5 * 83);
     }
-    if (this.level > 7) {
+    if (this.level > 7 && this.level < 13) {
       ctx.drawImage(Resources.get('images/Gem Blue.png'), 2 * 101, 5 * 83);
     }
-    if (this.level > 8) {
+    if (this.level > 8 && this.level < 14) {
       ctx.drawImage(Resources.get('images/Gem Blue.png'), 3 * 101, 5 * 83);
     }
-    if (this.level > 9) {
+    if (this.level > 9 && this.level < 15) {
       ctx.drawImage(Resources.get('images/Gem Blue.png'), 4 * 101, 5 * 83);
     }
     if (this.level > 10) {
