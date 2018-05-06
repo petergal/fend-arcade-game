@@ -71,9 +71,8 @@ class Player {
     this.star = 'images/Star.png';
     this.gemBlue = 'images/Gem Blue.png';
     this.gemOrange = 'images/Gem Orange.png';
-    // initial X position is first column, so it's not to easy at the beginning
-    this.x = 0;
-    // inital Y position
+    // initial position / start square.
+    this.x = 202;
     this.y = 392;
     // allEnemies array
     this.allEnemies = allEnemies;
@@ -232,9 +231,8 @@ class Player {
   }
   // Reset Player's position to a random column.
   resetPosition() {
-    let cols = [0, 101, 202, 303, 404]
-    this.x = cols[Math.floor(Math.random() * cols.length)];
-    // always last row
+    // always the same start square.
+    this.x = 202;
     this.y = 392;
   }
 }
